@@ -17,6 +17,25 @@
         return months[d];
     });
     chart.append("g").call(xAxis).attr("id", "x-axis").attr("transform", `translate(0,${innerHeight})`);
-    chart.append("g").call(yAxis).attr("id", "y-axis").attr("transform", `translate(0,0)`)
+    chart.append("g").call(yAxis).attr("id", "y-axis").attr("transform", `translate(0,0)`);
+    chart
+        .selectAll()
+        .data(monthlyVariance)
+        .enter()
+        .append('rect')
+        .attr("class", "cell")
+        .attr("x",d => {
+            return xScale(d.year)
+        })
+        .attr("y",d => {
+            return yScale(d.month)
+        })
+        .attr("width",d => {
+            return "10px"
+        })
+        .attr("height",d => {
+            return "10px"
+        })
+        .style("fill", d => "#333")
     console.log(monthlyVariance)
 })();
