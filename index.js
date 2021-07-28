@@ -30,6 +30,9 @@
         .attr("y",d => {
             return yScale(d.month)
         })
+        .attr("data-month", d => d.month - 1)
+        .attr("data-year", d => d.year)
+        .attr("data-temp", d => d.variance + baseTemperature)
         .attr("width",d => {
             return "10px"
         })
@@ -37,5 +40,5 @@
             return "10px"
         })
         .style("fill", d => "#333")
-    console.log(monthlyVariance)
+    console.log(monthlyVariance, baseTemperature)
 })();
