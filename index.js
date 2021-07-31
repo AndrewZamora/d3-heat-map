@@ -10,7 +10,7 @@
     const xScale = d3.scaleTime().range([0, innerWidth]);
     const yScale = d3.scaleLinear().range([innerHeight, 0]);
     xScale.domain([(new Date(null)).setFullYear(d3.min(monthlyVariance, d => d.year) - 1), (new Date(null)).setFullYear(d3.max(monthlyVariance, d => d.year + 1))]);
-    yScale.domain([d3.max(monthlyVariance, d => d.month), 0]);
+    yScale.domain([11, 0]);
     const xAxis = d3.axisBottom(xScale).ticks(d3.timeYear.every(10));
     const yAxis = d3.axisLeft(yScale).tickFormat(d => {
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
