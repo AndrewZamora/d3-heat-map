@@ -25,7 +25,7 @@
         .append('rect')
         .attr("class", "cell")
         .attr("x",d => {
-            return xScale(d.year)
+            return xScale((new Date(null)).setFullYear(d.year))
         })
         .attr("y",d => {
             return yScale(d.month)
