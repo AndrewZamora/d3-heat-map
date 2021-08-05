@@ -39,6 +39,39 @@
         .attr("height",d => {
             return "10px"
         })
-        .style("fill", d => "#333")
+        .style("fill", d => {
+            const temp = d.variance + baseTemperature
+            if(temp > 12.8) {
+                return "teal"
+            }
+            if(temp > 11.7) {
+                return "yellow"
+            }
+            if(temp > 10.6) {
+                return "black"
+            }
+            if(temp > 9.5) {
+                return "aqua"
+            }
+            if(temp > 8.3) {
+                return "gray"
+            }
+            if(temp > 7.2) {
+                return "orange"
+            }
+            if(temp > 6.1) {
+                return "red"
+            }
+            if(temp > 5.0) {
+                return "green"
+            }
+            if(temp > 3.9) {
+                return "purple"
+            }
+            if(temp > 2.8) {
+                return "pink"
+            }
+            return "blue"
+        })
     console.log(monthlyVariance, baseTemperature)
 })();
