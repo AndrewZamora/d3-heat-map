@@ -73,5 +73,6 @@
             }
             return "blue"
         })
+        chart.append("rect").attr("id", "legend")
     console.log(monthlyVariance, baseTemperature)
 })();
