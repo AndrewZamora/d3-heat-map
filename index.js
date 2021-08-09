@@ -1,5 +1,6 @@
 (async () => {
     const { monthlyVariance, baseTemperature } = await (await fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json")).json();
+    const colors = ["blue", "green", "purple", "red", "aqua", "orange", "gray", "black", "pink"]
     const margin = { top: 40, right: 60, bottom: 40, left: 60 };
     const chartHeight = 400;
     const chartWidth = 800;
@@ -41,38 +42,42 @@
         })
         .style("fill", d => {
             const temp = d.variance + baseTemperature
-            if(temp > 12.8) {
-                return "teal"
-            }
             if(temp > 11.7) {
-                return "yellow"
+                return colors[0]
             }
             if(temp > 10.6) {
-                return "black"
+                return colors[1]
             }
             if(temp > 9.5) {
-                return "aqua"
+                return colors[2]
             }
             if(temp > 8.3) {
-                return "gray"
+                return colors[3]
             }
             if(temp > 7.2) {
-                return "orange"
+                return colors[4]
             }
             if(temp > 6.1) {
-                return "red"
+                return colors[5]
             }
             if(temp > 5.0) {
-                return "green"
+                return colors[6]
             }
             if(temp > 3.9) {
-                return "purple"
+                return colors[7]
             }
-            if(temp > 2.8) {
-                return "pink"
-            }
-            return "blue"
+            return colors[8]
         })
-        chart.append("rect").attr("id", "legend")
+        const legend = d3.select('div').append("svg").attr("id", "legend").attr("height", "100px").attr("width", "500px");
+        legend
+        .append("g")
+        .selectAll()
+        .data(colors)
+        .enter()
+        .append('rect')
+        .attr("fill", (d, index)=> d)
+        .attr("x",(d, index)=> `${30 * index}px`)
+        .attr("height", "30px")
+        .attr("width", "30px")
     console.log(monthlyVariance, baseTemperature)
 })();
