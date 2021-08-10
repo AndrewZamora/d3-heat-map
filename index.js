@@ -19,64 +19,84 @@
     });
     chart.append("g").call(xAxis).attr("id", "x-axis").attr("transform", `translate(0,${innerHeight})`);
     chart.append("g").call(yAxis).attr("id", "y-axis").attr("transform", `translate(0,0)`);
+    const tooltip = d3.select("#title").append("div").attr("id", "tooltip").style("visibility", "hidden");
     chart
         .selectAll()
         .data(monthlyVariance)
         .enter()
         .append('rect')
         .attr("class", "cell")
-        .attr("x",d => {
+        .attr("x", d => {
             return xScale((new Date(null)).setFullYear(d.year))
         })
-        .attr("y",d => {
-            return yScale(d.month - 1 )
+        .attr("y", d => {
+            return yScale(d.month - 1)
         })
         .attr("data-month", d => d.month - 1)
         .attr("data-year", d => d.year)
         .attr("data-temp", d => d.variance + baseTemperature)
-        .attr("width",d => {
+        .attr("width", d => {
             return "3px"
         })
-        .attr("height",d => {
+        .attr("height", d => {
             return yScale.bandwidth()
         })
         .style("fill", d => {
             const temp = d.variance + baseTemperature
-            if(temp > 11.7) {
+            if (temp > 11.7) {
                 return colors[0]
             }
-            if(temp > 10.6) {
+            if (temp > 10.6) {
                 return colors[1]
             }
-            if(temp > 9.5) {
+            if (temp > 9.5) {
                 return colors[2]
             }
-            if(temp > 8.3) {
+            if (temp > 8.3) {
                 return colors[3]
             }
-            if(temp > 7.2) {
+            if (temp > 7.2) {
                 return colors[4]
             }
-            if(temp > 6.1) {
+            if (temp > 6.1) {
                 return colors[5]
             }
-            if(temp > 5.0) {
+            if (temp > 5.0) {
                 return colors[6]
             }
-            if(temp > 3.9) {
+            if (temp > 3.9) {
                 return colors[7]
             }
             return colors[8]
         })
-        const legend = d3.select('div').append("svg").attr("id", "legend").attr("height", "100px").attr("width", "500px");
-        legend
+        .on("mouseover", function (d) {
+            const windowWidthOffset = (window.innerWidth - chartWidth) / 2;
+            const windowHeightOffset = (window.innerHeight - chartHeight) / 2;
+            tooltip
+                .attr("data-year", d3.select(this).attr("data-year"))
+                .style("position", "absolute")
+                .style("font-size", "12px")
+                .style("background", "#333")
+                .style("color", "#FFF")
+                .style("border-radius", "4px")
+                .style("left", `${parseInt(d3.select(this).attr("x")) + windowWidthOffset + 70}px`)
+                .style("top", `${(parseInt(d3.select(this).attr("y")) + windowHeightOffset)}px`)
+                .style("visibility", "visible")
+                .style("padding", "10px")
+                .html(`${d.year} ${d.variance}`)
+        })
+        .on("mouseout", () => {
+            tooltip.style("visibility", "hidden")
+        });
+    const legend = d3.select('div').append("svg").attr("id", "legend").attr("height", "100px").attr("width", "500px");
+    legend
         .append("g")
         .selectAll()
         .data(colors)
         .enter()
         .append('rect')
-        .attr("fill", (d, index)=> d)
-        .attr("x",(d, index)=> `${30 * index}px`)
+        .attr("fill", (d, index) => d)
+        .attr("x", (d, index) => `${30 * index}px`)
         .attr("height", "30px")
         .attr("width", "30px")
     console.log(monthlyVariance, baseTemperature)
