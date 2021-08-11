@@ -1,6 +1,7 @@
 (async () => {
     const { monthlyVariance, baseTemperature } = await (await fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json")).json();
     const colors = ["blue", "green", "purple", "red", "aqua", "orange", "gray", "black", "pink"]
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const margin = { top: 40, right: 60, bottom: 40, left: 60 };
     const chartHeight = 400;
     const chartWidth = 800;
@@ -14,7 +15,6 @@
     yScale.domain([11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]);
     const xAxis = d3.axisBottom(xScale).ticks(d3.timeYear.every(10)).tickSizeOuter(0);
     const yAxis = d3.axisLeft(yScale).tickFormat(d => {
-        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         return months[d];
     }).tickSizeOuter(0);
     chart.append("g").call(xAxis).attr("id", "x-axis").attr("transform", `translate(0,${innerHeight})`);
@@ -83,7 +83,7 @@
                 .style("top", `${(parseInt(d3.select(this).attr("y")) + windowHeightOffset)}px`)
                 .style("visibility", "visible")
                 .style("padding", "10px")
-                .html(`${d.year} ${d.variance}`)
+                .html(`${d.year} - ${months[d.month-1]} <br> Temp: ${(d.variance + baseTemperature).toFixed(1)}&#8451; <br> Variance: ${(d.variance > 0 ? "+" : '') + d.variance.toFixed(1)}&#8451;`)
         })
         .on("mouseout", () => {
             tooltip.style("visibility", "hidden")
