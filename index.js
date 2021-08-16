@@ -2,7 +2,7 @@
     const { monthlyVariance, baseTemperature } = await (await fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json")).json();
     const colors = ["blue", "green", "purple", "red", "aqua", "orange", "gray", "black", "pink"]
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const margin = { top: 40, right: 60, bottom: 40, left: 60 };
+    const margin = { top: 40, right: 80, bottom: 40, left: 80 };
     const chartHeight = 400;
     const chartWidth = 800;
     const innerHeight = chartHeight - margin.top - margin.bottom;
@@ -17,8 +17,8 @@
     const yAxis = d3.axisLeft(yScale).tickFormat(d => {
         return months[d];
     }).tickSizeOuter(0);
-    chart.append("g").call(xAxis).attr("id", "x-axis").attr("transform", `translate(0,${innerHeight})`);
-    chart.append("g").call(yAxis).attr("id", "y-axis").attr("transform", `translate(0,0)`);
+    chart.append("g").call(xAxis).attr("id", "x-axis").attr("transform", `translate(0,${innerHeight})`).append('text').text("Months").attr("fill", "#333").attr("transform", `rotate(-90)`).attr("x", `${innerHeight / 2}`).attr("y", "-70");
+    chart.append("g").call(yAxis).attr("id", "y-axis").attr("transform", `translate(0,0)`).append('text').text("Years").attr("fill", "#333").attr("x", `${innerWidth / 2}`).attr("y", `${innerHeight + 30}`);
     const tooltip = d3.select("#title").append("div").attr("id", "tooltip").style("visibility", "hidden");
     chart
         .selectAll()
