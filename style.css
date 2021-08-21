@@ -7,3 +7,6 @@ h1, h2 {
     align-items: center;
     flex-direction: column;
 }
+#chart-container {
+    position: relative;
+}

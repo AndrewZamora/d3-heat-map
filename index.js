@@ -7,7 +7,7 @@
     const chartWidth = 800;
     const innerHeight = chartHeight - margin.top - margin.bottom;
     const innerWidth = chartWidth - margin.left - margin.right;
-    const chartContainer = d3.select('div').append('svg').attr("height", chartHeight).attr("width", chartWidth);
+    const chartContainer = d3.select('#chart-container').append('svg').attr("height", chartHeight).attr("width", chartWidth);
     const chart = chartContainer.append('g').attr("transform", `translate(${margin.left},${margin.top})`);
     const xScale = d3.scaleTime().range([0, innerWidth]);
     const yScale = d3.scaleBand().range([innerHeight, 0]);
@@ -19,7 +19,7 @@
     }).tickSizeOuter(0);
     chart.append("g").call(xAxis).attr("id", "x-axis").attr("transform", `translate(0,${innerHeight})`).append('text').text("Months").attr("fill", "#333").attr("transform", `rotate(-90)`).attr("x", `${innerHeight / 2}`).attr("y", "-70");
     chart.append("g").call(yAxis).attr("id", "y-axis").attr("transform", `translate(0,0)`).append('text').text("Years").attr("fill", "#333").attr("x", `${innerWidth / 2}`).attr("y", `${innerHeight + 30}`);
-    const tooltip = d3.select("#title").append("div").attr("id", "tooltip").style("visibility", "hidden");
+    const tooltip = d3.select("#chart-container").append("div").attr("id", "tooltip").style("visibility", "hidden");
     chart
         .selectAll()
         .data(monthlyVariance)
@@ -70,8 +70,8 @@
             return colors[8]
         })
         .on("mouseover", function (d) {
-            const windowWidthOffset = (window.innerWidth - chartWidth) / 2;
-            const windowHeightOffset = (window.innerHeight - chartHeight) / 2;
+            const [mouseX, mouseY] = d3.mouse(this);
+            console.log(Math.ceil(mouseX), Math.ceil(mouseY))
             tooltip
                 .attr("data-year", d3.select(this).attr("data-year"))
                 .style("position", "absolute")
@@ -79,8 +79,8 @@
                 .style("background", "#333")
                 .style("color", "#FFF")
                 .style("border-radius", "4px")
-                .style("left", `${parseInt(d3.select(this).attr("x")) + windowWidthOffset + 70}px`)
-                .style("top", `${(parseInt(d3.select(this).attr("y")) + windowHeightOffset)}px`)
+                .style("left", `${Math.ceil(mouseX)}px`)
+                .style("top", `${Math.ceil(mouseY) - 40}px`)
                 .style("visibility", "visible")
                 .style("padding", "10px")
                 .html(`${d.year} - ${months[d.month-1]} <br> Temp: ${(d.variance + baseTemperature).toFixed(1)}&#8451; <br> Variance: ${(d.variance > 0 ? "+" : '') + d.variance.toFixed(1)}&#8451;`)
