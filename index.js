@@ -14,6 +14,7 @@
     "gray",
     "black",
     "pink",
+    "yellow",
   ];
   const months = [
     "January",
@@ -109,35 +110,36 @@
     })
     .style("fill", (d) => {
       const temp = d.variance + baseTemperature;
-      if (temp > 11.7) {
+      console.log(temp);
+      if (temp <= 3.9) {
         return colors[0];
       }
-      if (temp > 10.6) {
+      if (temp <= 5.0) {
         return colors[1];
       }
-      if (temp > 9.5) {
+      if (temp <= 6.1) {
         return colors[2];
       }
-      if (temp > 8.3) {
+      if (temp <= 7.2) {
         return colors[3];
       }
-      if (temp > 7.2) {
-        return colors[4];
+      if(temp <= 8.3) {
+        return colors[4]
       }
-      if (temp > 6.1) {
+            if (temp <= 9.5) {
         return colors[5];
       }
-      if (temp > 5.0) {
+            if (temp <= 10.6) {
         return colors[6];
       }
-      if (temp > 3.9) {
+      if (temp <= 11.7) {
         return colors[7];
       }
+
       return colors[8];
     })
     .on("mouseover", function (d) {
       const [mouseX, mouseY] = d3.mouse(this);
-      console.log(Math.ceil(mouseX), Math.ceil(mouseY));
       tooltip
         .attr("data-year", d3.select(this).attr("data-year"))
         .style("position", "absolute")
@@ -152,7 +154,8 @@
         .html(
           `${d.year} - ${months[d.month - 1]} <br> Temp: ${(
             d.variance + baseTemperature
-          ).toFixed(1)}&#8451; <br> Variance: ${(d.variance > 0 ? "+" : "") + d.variance.toFixed(1)
+          ).toFixed(1)}&#8451; <br> Variance: ${
+            (d.variance > 0 ? "+" : "") + d.variance.toFixed(1)
           }&#8451;`
         );
     })
@@ -178,7 +181,6 @@
   const legendXScale = d3.scaleLinear().range([0, 30 * temps.length - 1]);
   legendXScale.domain([0, temps.length - 1]);
   const legendXAxis = d3.axisBottom(legendXScale).tickFormat((d) => {
-    console.log(temps[d], d);
     return temps[d];
   });
   legend.append("g").call(legendXAxis).attr("transform", `translate(0,${30})`);
