@@ -167,7 +167,7 @@
     .append("svg")
     .attr("id", "legend")
     .attr("height", "100px")
-    .attr("width", "500px");
+    .attr("width", "500px")
   legend
     .append("g")
     .selectAll()
@@ -177,12 +177,13 @@
     .attr("fill", (d, index) => d)
     .attr("x", (d, index) => `${30 * index}`)
     .attr("height", "30px")
-    .attr("width", "30px");
+    .attr("width", "30px")
+    .attr("transform", `translate(10,0)`);
   const legendXScale = d3.scaleLinear().range([0, 30 * temps.length - 1]);
-  legendXScale.domain([0, temps.length - 1]);
+  legendXScale.domain([0, temps.length-1]);
   const legendXAxis = d3.axisBottom(legendXScale).tickFormat((d) => {
     return temps[d];
   });
-  legend.append("g").call(legendXAxis).attr("transform", `translate(0,${30})`);
+  legend.append("g").call(legendXAxis).attr("transform", `translate(10,${30})`);
   console.log(monthlyVariance, baseTemperature);
 })();
