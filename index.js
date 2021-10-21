@@ -4,18 +4,7 @@
       "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json"
     )
   ).json();
-  const colors = [
-    "blue",
-    "green",
-    "purple",
-    "red",
-    "aqua",
-    "orange",
-    "gray",
-    "black",
-    "pink",
-    "yellow",
-  ];
+  const colorScale = d3.scaleLinear().domain([2, 12]).range(["white", "red"]);
   const months = [
     "January",
     "February",
@@ -110,33 +99,7 @@
     })
     .style("fill", (d) => {
       const temp = d.variance + baseTemperature;
-      console.log(temp);
-      if (temp <= 3.9) {
-        return colors[0];
-      }
-      if (temp <= 5.0) {
-        return colors[1];
-      }
-      if (temp <= 6.1) {
-        return colors[2];
-      }
-      if (temp <= 7.2) {
-        return colors[3];
-      }
-      if(temp <= 8.3) {
-        return colors[4]
-      }
-            if (temp <= 9.5) {
-        return colors[5];
-      }
-            if (temp <= 10.6) {
-        return colors[6];
-      }
-      if (temp <= 11.7) {
-        return colors[7];
-      }
-
-      return colors[8];
+      return `${colorScale(temp)}`;
     })
     .on("mouseover", function (d) {
       const [mouseX, mouseY] = d3.mouse(this);
@@ -154,8 +117,7 @@
         .html(
           `${d.year} - ${months[d.month - 1]} <br> Temp: ${(
             d.variance + baseTemperature
-          ).toFixed(1)}&#8451; <br> Variance: ${
-            (d.variance > 0 ? "+" : "") + d.variance.toFixed(1)
+          ).toFixed(1)}&#8451; <br> Variance: ${(d.variance > 0 ? "+" : "") + d.variance.toFixed(1)
           }&#8451;`
         );
     })
@@ -171,16 +133,16 @@
   legend
     .append("g")
     .selectAll()
-    .data(colors)
+    .data(temps)
     .enter()
     .append("rect")
-    .attr("fill", (d, index) => d)
+    .attr("fill", (d, index) => `${colorScale(temps[index])}`)
     .attr("x", (d, index) => `${30 * index}`)
     .attr("height", "30px")
     .attr("width", "30px")
     .attr("transform", `translate(10,0)`);
   const legendXScale = d3.scaleLinear().range([0, 30 * temps.length - 1]);
-  legendXScale.domain([0, temps.length-1]);
+  legendXScale.domain([0, temps.length - 1]);
   const legendXAxis = d3.axisBottom(legendXScale).tickFormat((d) => {
     return temps[d];
   });
