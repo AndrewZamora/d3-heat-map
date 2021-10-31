@@ -4,7 +4,7 @@
       "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json"
     )
   ).json();
-  const colorScale = d3.scaleLinear().domain([2, 12]).range(["white", "red"]);
+  const colorScale = d3.scaleLinear().domain([2, 7, 12]).range(["white", "orange", "red"])
   const months = [
     "January",
     "February",
