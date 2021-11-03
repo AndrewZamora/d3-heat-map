@@ -136,16 +136,16 @@
     .data(temps)
     .enter()
     .append("rect")
-    .attr("fill", (d, index) => `${colorScale(temps[index])}`)
-    .attr("x", (d, index) => `${30 * index}`)
+    .attr("fill", (d, index) => d === temps[temps.length - 1] ? 'transparent' :`${colorScale(temps[index])}`)
+    .attr("x", (d, index) => `${30* index}`)
     .attr("height", "30px")
     .attr("width", "30px")
-    .attr("transform", `translate(10,0)`);
-  const legendXScale = d3.scaleLinear().range([0, 30 * temps.length - 1]);
+    .attr("transform", `translate(30,0)`);
+  const legendXScale = d3.scaleLinear().range([0, (30 * temps.length)-30]);
   legendXScale.domain([0, temps.length - 1]);
   const legendXAxis = d3.axisBottom(legendXScale).tickFormat((d) => {
     return temps[d];
-  });
-  legend.append("g").call(legendXAxis).attr("transform", `translate(10,${30})`);
+  })
+  legend.append("g").call(legendXAxis).attr("transform", `translate(30,${30})`);
   console.log(monthlyVariance, baseTemperature);
 })();
