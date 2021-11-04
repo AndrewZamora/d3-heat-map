@@ -4,7 +4,7 @@
       "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json"
     )
   ).json();
-  const colorScale = d3.scaleLinear().domain([2, 7, 12]).range(["white", "orange", "red"])
+  const colorScale = d3.scaleLinear().domain([3, 7, 12]).range(["cornflowerblue", "orange", "red"])
   const months = [
     "January",
     "February",
@@ -22,7 +22,7 @@
   const temps = [2.8, 3.9, 5.0, 6.1, 7.2, 8.3, 9.5, 10.6, 11.7, 12.8];
   const margin = { top: 40, right: 80, bottom: 40, left: 80 };
   const chartHeight = 400;
-  const chartWidth = 800;
+  const chartWidth = 1000;
   const innerHeight = chartHeight - margin.top - margin.bottom;
   const innerWidth = chartWidth - margin.left - margin.right;
   const chartContainer = d3
@@ -83,7 +83,8 @@
     .append("rect")
     .attr("class", "cell")
     .attr("x", (d) => {
-      return xScale(new Date(null).setFullYear(d.year));
+      // Subtracting 2 gets data rects flush with the y axis (might be an issue with the way I'm setting the date object)
+      return xScale(new Date(null).setFullYear(d.year)) - 2 ;
     })
     .attr("y", (d) => {
       return yScale(d.month - 1);
@@ -92,7 +93,7 @@
     .attr("data-year", (d) => d.year)
     .attr("data-temp", (d) => d.variance + baseTemperature)
     .attr("width", (d) => {
-      return "3px";
+      return "4px";
     })
     .attr("height", (d) => {
       return yScale.bandwidth();
